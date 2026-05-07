@@ -1,6 +1,6 @@
-# Handoff Skill
+# Anchor Skill
 
-`handoff` aligns parallel coding sessions, branches, worktrees, PRs, and production deploy state before shipping.
+`anchor` aligns parallel coding sessions, branches, worktrees, PRs, and production deploy state before updating production.
 
 Its core invariant is simple: reconstruct reality before acting, converge related work, ship the exact revision, and verify production.
 
@@ -9,19 +9,19 @@ Its core invariant is simple: reconstruct reality before acting, converge relate
 In Codex, ask:
 
 ```text
-Install the handoff skill from https://github.com/schl0ss/handoff-skill/tree/main/handoff
+Install the anchor skill from https://github.com/schl0ss/anchor-skill/tree/main/anchor
 ```
 
 If using the skill installer helper directly:
 
 ```bash
-install-skill-from-github.py --repo schl0ss/handoff-skill --path handoff
+install-skill-from-github.py --repo schl0ss/anchor-skill --path anchor
 ```
 
 Or install from a GitHub URL:
 
 ```bash
-install-skill-from-github.py --url https://github.com/schl0ss/handoff-skill/tree/main/handoff
+install-skill-from-github.py --url https://github.com/schl0ss/anchor-skill/tree/main/anchor
 ```
 
 Restart Codex after installation so the skill is discovered.
@@ -31,13 +31,13 @@ Restart Codex after installation so the skill is discovered.
 Ask Codex:
 
 ```text
-handoff
+anchor
 ```
 
 Or explicitly:
 
 ```text
-Use $handoff to reconcile drift across sessions and ship this change to production.
+Use $anchor to reconcile drift across sessions and update production.
 ```
 
 The skill is platform-agnostic. It does not assume a specific deploy provider. It discovers the production deploy path from the repository, forge, CI, provider metadata, and live target.

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Handoff"
-  short_description: "Align sessions before production ships"
-  default_prompt: "Use $handoff to reconcile branch, worktree, PR, and production deploy drift before shipping."

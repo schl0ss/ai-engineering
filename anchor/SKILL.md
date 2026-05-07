@@ -1,13 +1,13 @@
 ---
-name: handoff
-description: Align parallel coding sessions, branches, worktrees, PRs, and production deploy state before shipping. Use when the user says "handoff" or asks Codex to reconcile drift across sessions, preserve unrelated work, move only related changes onto the real production deploy path, deploy an exact commit, and verify the live result.
+name: anchor
+description: Anchor parallel coding sessions, branches, worktrees, PRs, and production deploy state before updating production. Use when the user says "anchor" or asks Codex to reconcile drift across sessions, preserve unrelated work, move only related changes onto the real production deploy path, deploy an exact revision, and verify the live result.
 ---
 
-# Handoff
+# Anchor
 
 ## Purpose
 
-Align parallel sessions and production deploy state before shipping.
+Anchor parallel sessions and production deploy state before updating production.
 
 Reconstruct reality from durable sources before acting: local worktrees, git history, remotes, open PRs, CI/deploy records, provider metadata, and live production behavior. The current conversation is useful context, not proof.
 
@@ -122,7 +122,7 @@ If verification fails, investigate whether the wrong branch, stale cache, failed
 
 ## Final Report
 
-End with a concise handoff report:
+End with a concise anchor report:
 
 - Production path used.
 - Branch and commit SHA shipped.

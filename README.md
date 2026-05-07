@@ -21,6 +21,20 @@ In cloud environments, Anchor adapts to the evidence available there: remotes, P
 
 OpenAI skills follow the Agent Skills open standard and can be used across tools that support that format. See OpenAI's [Skills in ChatGPT](https://help.openai.com/articles/20001066-skills-in-chatgpt) and [Codex cloud](https://platform.openai.com/docs/codex) docs for current product support.
 
+### Claude Code
+
+Claude Code can use Anchor as a Markdown playbook, but it should not be treated as a native OpenAI skill install there. The portable part is `anchor/SKILL.md`; the `anchor/agents/openai.yaml` metadata is for tools that understand the OpenAI/Agent Skills package shape.
+
+Recommended Claude Code usage:
+
+- Paste or reference `anchor/SKILL.md` when asking Claude Code to reconcile drift before updating production.
+- Create a custom slash command by placing the Anchor instructions in `.claude/commands/anchor.md` for a project command, or `~/.claude/commands/anchor.md` for a personal command, then run `/anchor`.
+- For a dedicated workflow agent, adapt the same instructions into a Claude Code subagent under `.claude/agents/anchor.md`.
+
+The same evidence rule applies in Claude Code: Anchor can only reconcile state Claude Code can inspect through the checkout, remotes, PRs, CI, deploy provider records, artifacts, or live production. Unpushed work on another machine remains invisible until it is surfaced through a durable source.
+
+See Anthropic's Claude Code docs for [custom slash commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands) and [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
+
 ## Install
 
 In Codex, ask:

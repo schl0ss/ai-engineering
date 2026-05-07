@@ -7,6 +7,6 @@ They should demonstrate architecture, judgment, data fluency, agent workflow des
 Current project cards:
 
 - `claude-code-operating-framework-example/`
-- `stathelp/`
+- `stat-inference-help/`
 - `georgia-tech-data-science-portfolio/`
 - `schloss-boss-site-and-products/`

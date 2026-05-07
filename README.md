@@ -30,9 +30,9 @@ What it proves: reusable agent workflow design across Claude Code, Codex, and ot
 
 What to inspect: the glossary, principles, and seven-step process in `SKILL.md`.
 
-### 3. Stathelp
+### 3. Stat Inference Help
 
-Primary link: [claude-skill-stathelp](https://github.com/schl0ss/claude-skill-stathelp)
+Primary link: [stat-inference-help](https://github.com/schl0ss/stat-inference-help)
 
 What it proves: domain expertise encoded into an agent workflow. Thirteen years of statistics teaching became a reusable skill for basic statistical inference, the 4C Method, calculator commands, and common student errors.
 
@@ -66,7 +66,7 @@ If you have fifteen minutes:
 
 1. Inspect the operating framework contract and eval docs.
 2. Read Anchor's process end to end.
-3. Compare the Stathelp skill against the AP Statistics writeup.
+3. Compare the Stat Inference Help skill against the AP Statistics writeup.
 4. Review the ML/data portfolio links.
 
 If you are evaluating fit for an AI engineer role, look for three things:
@@ -85,7 +85,7 @@ skills/
 public-projects/
   claude-code-operating-framework-example/
                             Project card linking to the standalone public framework example
-  stathelp/
+  stat-inference-help/
                             Project card for the statistics teaching skill
   georgia-tech-data-science-portfolio/
                             Project card for public data science portfolio artifacts

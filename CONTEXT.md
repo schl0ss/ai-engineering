@@ -18,6 +18,6 @@ The thesis: AI engineering is orchestration plus verification. The portfolio sho
 
 - Agent systems architecture through the Claude Code operating framework example.
 - Reusable agent workflow design through `skills/engineering/anchor`.
-- Teaching expertise encoded as workflow through Stathelp.
+- Teaching expertise encoded as workflow through Stat Inference Help.
 - Data science depth through the Georgia Tech portfolio.
 - Product engineering and public communication through Schloss Boss, MooringSocial, Spike Squad, and the portfolio site.

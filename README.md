@@ -4,6 +4,21 @@
 
 Its core invariant is simple: reconstruct reality before acting, converge related work, ship the exact revision, and verify production.
 
+## Compatibility
+
+Anchor is packaged as an OpenAI/Agent Skills skill with `anchor/SKILL.md` and `anchor/agents/openai.yaml`.
+
+The workflow itself is platform-agnostic. It is designed for:
+
+- Local coding workspaces.
+- Cloud coding sandboxes.
+- CI-like runners.
+- Any agent system that can read `SKILL.md` instructions.
+
+In cloud environments, Anchor adapts to the evidence available there: remotes, PRs, CI records, deploy provider metadata, artifacts, images, and live production checks. It cannot see another machine's unpushed local work unless that work is exposed through a worktree, branch, PR, patch, artifact, issue, or user-provided context.
+
+OpenAI skills follow the Agent Skills open standard and can be used across tools that support that format. See OpenAI's [Skills in ChatGPT](https://help.openai.com/articles/20001066-skills-in-chatgpt) and [Codex cloud](https://platform.openai.com/docs/codex) docs for current product support.
+
 ## Install
 
 In Codex, ask:
@@ -40,7 +55,7 @@ Or explicitly:
 Use $anchor to reconcile drift across sessions and update production.
 ```
 
-The skill is platform-agnostic. It does not assume a specific deploy provider. It discovers the production deploy path from the repository, forge, CI, provider metadata, and live target.
+The skill does not assume a specific deploy provider. It discovers the production deploy path from the repository, forge, CI, provider metadata, and live target.
 
 ## License
 

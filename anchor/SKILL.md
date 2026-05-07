@@ -1,6 +1,6 @@
 ---
 name: anchor
-description: Anchor parallel coding sessions, branches, worktrees, PRs, and production deploy state before updating production. Use when the user says "anchor" or asks Codex to reconcile drift across sessions, preserve unrelated work, move only related changes onto the real production deploy path, deploy an exact revision, and verify the live result.
+description: Anchor parallel coding sessions, branches, worktrees, PRs, and production deploy state before updating production. Use when the user says "anchor" or asks an AI coding agent to reconcile drift across sessions, preserve unrelated work, move only related changes onto the real production deploy path, deploy an exact revision, and verify the live result. Works in local workspaces, cloud coding sandboxes, and CI-like environments by adapting evidence gathering to the access available.
 ---
 
 # Anchor
@@ -10,6 +10,16 @@ description: Anchor parallel coding sessions, branches, worktrees, PRs, and prod
 Anchor parallel sessions and production deploy state before updating production.
 
 Reconstruct reality from durable sources before acting: local worktrees, git history, remotes, open PRs, CI/deploy records, provider metadata, and live production behavior. The current conversation is useful context, not proof.
+
+## Execution Environments
+
+Use the strongest evidence available in the current environment:
+
+- In a local workspace, inspect local dirty files, available worktrees, local-only branches, remotes, PRs, CI, deploy provider state, and live production.
+- In a cloud coding sandbox, assume the checkout may be an isolated clone. Inspect fetched branches, remotes, PRs, CI, deploy provider state, and live production. Do not assume another machine's unpushed local work is visible.
+- In a CI-like runner, treat the runner as an evidence source for the checked-out revision, workflow id, artifact, and environment. Use forge and provider APIs to reconstruct broader state.
+
+If an evidence source is unavailable, record it explicitly and substitute the next-best durable source. Hidden local work from another session cannot be reconciled unless it is exposed through a worktree, branch, PR, patch, artifact, issue, or user-provided context.
 
 ## Non-Negotiables
 
@@ -22,7 +32,7 @@ Reconstruct reality from durable sources before acting: local worktrees, git his
 
 ## Workflow
 
-### 1. Load Local Rules
+### 1. Load Project Rules
 
 Read repository instructions before changing files. Prefer, in order when present:
 
@@ -39,7 +49,7 @@ Use local rules to identify canonical commands, deploy policies, branch names, a
 Inspect durable state before editing:
 
 - Current repo path, branch, upstream, status, dirty files, untracked files, and unpushed commits.
-- All local worktrees with `git worktree list`.
+- Available local worktrees with `git worktree list`, when the environment exposes them.
 - Recent branches and commits touching the requested area.
 - Remote branches and open PRs when GitHub, GitLab, Bitbucket, or another forge is available.
 - CI state for relevant branches and commits.
@@ -55,7 +65,7 @@ Compare the intended change against every active source of truth:
 
 - Current branch versus production deploy source.
 - Production deployed commit or artifact versus the production branch head.
-- Other local worktrees versus the current worktree.
+- Other accessible worktrees, branches, and PRs versus the current worktree or cloud checkout.
 - Open PR branches versus the files, routes, modules, services, or assets being changed.
 - Recent commits touching the same area that are not in the production deploy path.
 

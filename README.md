@@ -4,7 +4,7 @@
 
 Its core invariant is simple: reconstruct reality before acting, converge related work, ship the exact revision, and verify production.
 
-The skill is written as an agent playbook: explicit goal, terms, evidence rules, drift classifications, stop conditions, and final report shape. It is meant to be easy for an LLM to execute without relying on hidden assumptions.
+The skill is written as an agent playbook: short thesis, precise glossary, compact principles, numbered process, and final report shape. It is meant to be easy for an LLM to execute without relying on hidden assumptions.
 
 ## Compatibility
 
@@ -17,7 +17,7 @@ anchor/
 └── SKILL.md
 ```
 
-There is no product-specific source of truth. Claude Code, Codex, and other coding agents should all read the same instructions.
+No product-specific file defines behavior. Claude Code, Codex, and other coding agents should all read the same instructions.
 
 The workflow is platform-agnostic. It is designed for:
 

@@ -6,7 +6,13 @@ Its core invariant is simple: reconstruct reality before acting, converge relate
 
 ## Install
 
-Install from this repository with Codex's skill installer:
+In Codex, ask:
+
+```text
+Install the handoff skill from https://github.com/schl0ss/handoff-skill/tree/main/handoff
+```
+
+If using the skill installer helper directly:
 
 ```bash
 install-skill-from-github.py --repo schl0ss/handoff-skill --path handoff

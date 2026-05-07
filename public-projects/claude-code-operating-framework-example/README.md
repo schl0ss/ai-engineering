@@ -6,11 +6,21 @@ https://github.com/schl0ss/Claude-Code-Operating-Framework-Example
 
 This project demonstrates an agentic engineering operating framework: sub-agents, skills, hooks, MCP, guardrails, synthetic data, approval gates, and evaluation.
 
-It belongs in this portfolio as a public project because it shows system design around agentic work, not just prompt usage.
+What it proves:
 
-Reviewer path:
+- Agent systems architecture around scoped roles, durable context, tool boundaries, evals, and guardrails.
+- Ability to make agent work inspectable instead of relying on prompt transcripts.
+
+What to inspect:
+
+- `README.md`
+- `framework/agent-contract.yaml`
+- `.claude/agents`
+- `.claude/skills`
+- Evaluation and guardrail docs
+
+Shortest reviewer path:
 
 - Read the standalone repo README.
-- Inspect `framework/agent-contract.yaml`.
-- Inspect `.claude/agents` and `.claude/skills`.
-- Inspect the evaluation and guardrail docs.
+- Open `framework/agent-contract.yaml`.
+- Skim one agent, one skill, and the evaluation docs.

@@ -10,11 +10,20 @@ https://schloss-boss.ai/blog/ap-stats-skill
 
 Stat Inference Help turns 13 years of AP Statistics teaching experience into a reusable agent workflow for basic statistical inference.
 
-It belongs in this portfolio because it shows domain expertise converted into repeatable AI behavior: the 4C Method, p-value interpretation, TI-84 calculator commands, curriculum references, and common student-error checks.
+What it proves:
 
-Reviewer path:
+- Domain expertise converted into repeatable AI behavior.
+- Skill design that separates execution instructions from deeper reference material.
+
+What to inspect:
+
+- `SKILL.md`
+- `references/CURRICULUM.md`
+- `references/INFERENCE.md`
+- Related AP Statistics writeup
+
+Shortest reviewer path:
 
 - Read the standalone repo README.
 - Inspect `SKILL.md`.
-- Inspect `references/CURRICULUM.md`.
-- Inspect `references/INFERENCE.md`.
+- Open one reference file to see the depth behind the workflow.

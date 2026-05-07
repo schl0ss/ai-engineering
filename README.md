@@ -12,6 +12,27 @@ Portfolio: [schloss-boss.ai](https://schloss-boss.ai/)
 
 LinkedIn: [linkedin.com/in/schl0ss](https://www.linkedin.com/in/schl0ss/)
 
+## Start Here For AI Engineer Reviewers
+
+Review this repo by proof track, not by folder order:
+
+- **Agent systems**: start with the Claude Code operating framework, then Anchor. Look for scoped roles, durable context, approval gates, evals, and live verification.
+- **ML/data science**: start with the Georgia Tech data science portfolio. Look for NLP, predictive modeling, data assembly, validation, and analytical communication.
+- **Product engineering**: start with Schloss Boss and shipped product work. Look for full-stack delivery, public writing, production constraints, and user-facing judgment.
+
+```mermaid
+flowchart LR
+  A["AI engineer"] --> B["Agent systems"]
+  A --> C["ML and data"]
+  A --> D["Product engineering"]
+  B --> E["Operating framework"]
+  B --> F["Anchor"]
+  C --> G["Georgia Tech portfolio"]
+  C --> H["Stat Inference Help"]
+  D --> I["Schloss Boss"]
+  D --> J["MooringSocial and shipped products"]
+```
+
 ## Featured Proof
 
 ### 1. Claude Code Operating Framework Example
@@ -56,18 +77,17 @@ What to inspect: [From Violinist to Conductor](https://schloss-boss.ai/blog/cond
 
 ## How To Review This Repo
 
-If you have five minutes:
+If you have five minutes, use the fastest signal path:
 
 1. Read the Claude Code operating framework README.
 2. Skim Anchor's `SKILL.md`.
 3. Open the Georgia Tech data science portfolio.
 
-If you have fifteen minutes:
+If you have fifteen minutes, follow one track deeply:
 
-1. Inspect the operating framework contract and eval docs.
-2. Read Anchor's process end to end.
-3. Compare the Stat Inference Help skill against the AP Statistics writeup.
-4. Review the ML/data portfolio links.
+1. Agent systems: inspect the operating framework contract, eval docs, and Anchor's process.
+2. ML/data science: read the Georgia Tech portfolio README and one linked technical report.
+3. Product engineering: read the Schloss Boss AI systems thesis and inspect the public site repo.
 
 If you are evaluating fit for an AI engineer role, look for three things:
 

@@ -1,17 +1,24 @@
 # Georgia Tech Data Science Portfolio
 
-Public portfolio space for Georgia Tech data science work.
-
 Standalone repo:
 
 https://github.com/schl0ss/data-science-portfolio
 
-Use this folder for interview-safe case studies, notebooks, reports, modeling decisions, project context, and links to deployed or rendered artifacts.
+What it proves:
 
-Reviewer path:
+- ML and data science depth from Georgia Tech MS Analytics work.
+- NLP, predictive modeling, data visualization, project leadership, and analytical communication.
 
-- NLP practicum: XLM-RoBERTa/PyTorch bullying classification.
+What to inspect:
+
+- NLP practicum report: XLM-RoBERTa/PyTorch bullying classification.
 - NBA Moneyball: salary prediction across 13 model families.
 - College Seeker: interactive university exploration and team leadership.
+
+Shortest reviewer path:
+
+- Read the standalone repo README.
+- Open the NLP practicum report.
+- Skim the Moneyball code/report links.
 
 Do not include private datasets, restricted course material, credentials, or anything that violates academic, employer, or platform policies.

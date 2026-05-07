@@ -4,6 +4,8 @@
 
 Its core invariant is simple: reconstruct reality before acting, converge related work, ship the exact revision, and verify production.
 
+The skill is written as an agent playbook: explicit goal, terms, evidence rules, drift classifications, stop conditions, and final report shape. It is meant to be easy for an LLM to execute without relying on hidden assumptions.
+
 ## Compatibility
 
 Anchor is packaged as an OpenAI/Agent Skills skill with `anchor/SKILL.md` and `anchor/agents/openai.yaml`.

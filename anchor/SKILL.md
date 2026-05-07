@@ -5,36 +5,58 @@ description: Anchor parallel coding sessions, branches, worktrees, PRs, and prod
 
 # Anchor
 
-## Purpose
+## Goal
 
-Anchor parallel sessions and production deploy state before updating production.
+Before updating production, reconstruct the repo's real state, reconcile related drift, ship one exact revision, and verify the live result.
 
-Reconstruct reality from durable sources before acting: local worktrees, git history, remotes, open PRs, CI/deploy records, provider metadata, and live production behavior. The current conversation is useful context, not proof.
+Treat the conversation as a lead. Treat git, remotes, PRs, CI, deploy metadata, artifacts, and live production as evidence.
 
-## Execution Environments
+## Core Rule
 
-Use the strongest evidence available in the current environment:
+Do not update production until these questions have evidence-backed answers:
 
-- In a local workspace, inspect local dirty files, available worktrees, local-only branches, remotes, PRs, CI, deploy provider state, and live production.
-- In a cloud coding sandbox, assume the checkout may be an isolated clone. Inspect fetched branches, remotes, PRs, CI, deploy provider state, and live production. Do not assume another machine's unpushed local work is visible.
-- In a CI-like runner, treat the runner as an evidence source for the checked-out revision, workflow id, artifact, and environment. Use forge and provider APIs to reconstruct broader state.
+1. What source does production actually deploy from?
+2. What revision is production running now?
+3. What parallel work exists in this repo or forge?
+4. Which drift is related to this change?
+5. What exact revision will be deployed?
+6. How will the live result be verified?
 
-If an evidence source is unavailable, record it explicitly and substitute the next-best durable source. Hidden local work from another session cannot be reconciled unless it is exposed through a worktree, branch, PR, patch, artifact, issue, or user-provided context.
+If any answer is unknowable from available evidence, stop and report the gap.
+
+## Terms
+
+- `workspace`: the checkout or sandbox where the agent is running.
+- `production path`: the branch, workflow, provider, environment, artifact, image, or server checkout that actually updates production.
+- `durable source`: state that survives outside the current chat, such as git history, remotes, PRs, CI runs, deploy records, artifacts, images, issues, or live endpoints.
+- `drift`: any difference between the workspace, production path, parallel work, and live production.
+- `exact revision`: a commit SHA, image digest, build id, artifact hash, release id, or deployment id that can be named after shipping.
+- `anchor report`: the final record of sources checked, drift handled, revision shipped, live verification, and remaining risk.
+
+## Environment Rule
+
+Use the strongest evidence the environment exposes:
+
+- Local workspace: inspect dirty files, local branches, local worktrees, remotes, PRs, CI, deploy metadata, and live production.
+- Cloud sandbox: assume the checkout is isolated. Inspect fetched branches, remotes, PRs, CI, deploy metadata, artifacts, images, and live production. Do not assume another machine's unpushed work is visible.
+- CI-like runner: treat the runner as evidence for its checked-out revision, workflow id, artifact, and environment. Use forge and provider APIs for broader state.
+
+Hidden work cannot be reconciled unless it is exposed through a worktree, branch, PR, patch, artifact, issue, or user-provided context.
 
 ## Non-Negotiables
 
-- Preserve unrelated dirty work. Do not reset, delete, stash, rewrite, or overwrite work from other sessions unless the user explicitly asks.
-- Discover the production deploy path before editing: branch, worktree, CI job, provider, environment, image, artifact, or server path.
-- Implement on the branch or worktree production actually deploys from, or deliberately bring the exact related change there.
-- Deploy only an exact commit SHA, image digest, build artifact, or release identifier that can be reported later.
-- Verify the live target contains the change after deployment. Provider success alone is not enough.
-- Stop and ask when production source, deploy target, or related drift cannot be determined with confidence.
+- Preserve unrelated work. Do not reset, delete, stash, rewrite, or overwrite work from other sessions unless the user explicitly asks.
+- Discover the production path before editing.
+- Work on the production path, or move only clearly related changes onto that path.
+- Deploy one exact revision.
+- Verify live production independently of provider success.
+- Report skipped drift with reasons.
 
-## Workflow
+## Procedure
 
-### 1. Load Project Rules
+### 1. Read Project Instructions
 
-Read repository instructions before changing files. Prefer, in order when present:
+Before changing files, read available project rules:
 
 - `AGENTS.md`
 - `CLAUDE.md`
@@ -42,114 +64,111 @@ Read repository instructions before changing files. Prefer, in order when presen
 - `docs/agents/*`
 - contributing, deploy, release, or runbook docs
 
-Use local rules to identify canonical commands, deploy policies, branch names, and verification expectations.
+Extract the canonical commands, deploy policy, production branch or environment, and verification requirements.
 
-### 2. Build The State Map
+### 2. Map Durable State
 
-Inspect durable state before editing:
+Build a state map before editing. Include:
 
-- Current repo path, branch, upstream, status, dirty files, untracked files, and unpushed commits.
-- Available local worktrees with `git worktree list`, when the environment exposes them.
-- Recent branches and commits touching the requested area.
-- Remote branches and open PRs when GitHub, GitLab, Bitbucket, or another forge is available.
+- Workspace path, branch, upstream, status, dirty files, untracked files, and unpushed commits.
+- Accessible local worktrees with `git worktree list`, when available.
+- Recent local and remote branches.
+- Recent commits touching the requested files, routes, modules, services, assets, or dependencies.
+- Open PRs and their branches.
 - CI state for relevant branches and commits.
-- Production deploy source: branch, workflow, provider, environment, artifact, image digest, release id, or server checkout.
-- Recent production deployments and their associated commits or artifacts.
-- Live production URL or endpoint, when discoverable.
+- Production path and latest deployed revision.
+- Recent production deployments and their source revisions or artifacts.
+- Live production URL or endpoint.
 
-Do not trust one source. Cross-check git, forge metadata, deployment metadata, and repo configuration.
+Cross-check at least two durable sources when possible. Example: compare provider deploy metadata with git history, or compare a live version endpoint with the claimed deployment revision.
 
-### 3. Audit Drift
+### 3. Classify Drift
 
-Compare the intended change against every active source of truth:
+Classify each difference found in the state map:
 
-- Current branch versus production deploy source.
-- Production deployed commit or artifact versus the production branch head.
-- Other accessible worktrees, branches, and PRs versus the current worktree or cloud checkout.
-- Open PR branches versus the files, routes, modules, services, or assets being changed.
-- Recent commits touching the same area that are not in the production deploy path.
+- `related`: affects the same behavior, files, dependencies, deploy path, or verification target. Include it before shipping.
+- `conflicting`: overlaps the change but cannot be safely combined without human judgment. Stop.
+- `unrelated`: leave it untouched.
+- `unknown`: inspect further; if still unknown, stop.
 
-Classify each discovered difference:
+Do not use broad sync commands to make drift disappear. Explain what each relevant difference is and why it belongs in one class.
 
-- `related`: should be included before shipping because it affects the same behavior or dependency chain.
-- `conflicting`: touches the same area but cannot be safely merged without human judgment.
-- `unrelated`: must be left untouched.
-- `unknown`: requires more inspection or a stop for user confirmation.
+### 4. Choose The Convergence Plan
 
-Report material drift before editing if it changes the execution plan.
+State the plan before making material changes when drift exists.
 
-### 4. Converge Related Work
+Use the repository's normal integration method: merge, rebase, cherry-pick, patch application, PR update, release branch update, or provider-specific promotion. Prefer the method that preserves the clearest audit trail for this repo.
 
-Bring only clearly related work onto the production deploy path.
+If related work is missing from the production path, bring in only that work. If the related work is too tangled with unrelated work, stop and report the boundary.
 
-Use the repo's normal integration method where possible: merge, rebase, cherry-pick, patch application, or PR branch update. Preserve authorship and commit history when that matters to the project. Avoid broad sync operations that sweep in unrelated changes.
+### 5. Make The Change
 
-If related work conflicts, stop with a concise explanation of the competing commits, branches, files, and risk.
+Make the requested change on the verified production path. Keep edits scoped to the requested behavior and any clearly related drift.
 
-### 5. Implement The Requested Change
-
-Make the requested production change on the verified deploy path. Keep edits tightly scoped. Continue to protect unrelated dirty work, including files in the same worktree that were not part of this request.
-
-Run the repo's relevant checks. Prefer the smallest useful verification first, then broader checks when the blast radius justifies them.
+Before committing, run the smallest useful checks first. Run broader checks when the change touches shared behavior, deploy configuration, build output, dependencies, authentication, data, or user-facing flows.
 
 ### 6. Commit And Publish
 
-Commit only the intended changes and related converged commits. Verify the staged diff before committing. Push the branch that production deploys from, or the branch required by the repo's release process.
+Commit only intended changes. Before committing:
 
-Record:
+- Inspect the staged diff.
+- Confirm unrelated dirty files are not staged.
+- Confirm the commit will land on the production path or the repo's required release path.
 
-- Branch name.
-- Commit SHA.
-- Tree status after commit.
-- Any skipped branches, commits, or dirty files with reasons.
+After committing, record the branch, exact commit SHA, and tree status. Push through the repo's normal release process.
 
-### 7. Deploy The Exact Revision
+### 7. Deploy One Exact Revision
 
-Deploy the exact revision through the repo's real production path. Use the provider or release mechanism the project already uses. Examples include CI environments, deployment records, hosting provider releases, container image rollouts, static asset publishing, package releases, or server pull-and-restart scripts.
+Deploy the exact revision through the real production mechanism. Examples include CI environments, hosting provider deploys, container image rollouts, static asset publishing, package releases, or server pull-and-restart scripts.
 
-Capture the strongest available deployment identifier:
+Capture the strongest identifier available:
 
 - Deployment id.
 - Release id.
 - Build id.
+- Workflow run id.
+- Commit SHA.
 - Image digest.
 - Artifact hash.
-- Workflow run id.
-- Server commit SHA.
+- Server checkout SHA.
 
 ### 8. Verify Live Production
 
-Verify the live target independently of deploy success.
+Provider success is not verification. Check the live target.
 
-Choose checks that prove the change is present:
+Use evidence that proves the shipped change is present:
 
-- Fetch live HTML, JavaScript, CSS, static assets, API responses, headers, health checks, or version endpoints.
-- Compare asset hashes, source maps, build ids, commit metadata, or image digests when available.
-- Exercise the affected UI or API path with browser automation, curl, provider logs, or smoke tests.
-- Check cache behavior when CDN or static hosting is involved.
+- Live HTML, JavaScript, CSS, static assets, API responses, headers, health checks, or version endpoints.
+- Asset hashes, source maps, build ids, commit metadata, image digests, or artifact hashes.
+- Browser, API, smoke, or command-line checks of the affected path.
+- Cache behavior when CDN, static hosting, or split traffic is involved.
 
-If verification fails, investigate whether the wrong branch, stale cache, failed rollout, background deploy, or split traffic is responsible. Do not declare success until production evidence matches the shipped revision.
+If the live target does not match the exact revision, investigate wrong branch, stale cache, failed rollout, background deploy, or traffic splitting. Do not report success until live evidence matches.
 
-## Final Report
+## Stop Conditions
 
-End with a concise anchor report:
+Stop before production mutation when:
+
+- The production path is ambiguous.
+- The latest deployed revision cannot be identified.
+- Related drift cannot be classified.
+- Required credentials or provider access are missing.
+- The plan would overwrite unrelated work.
+- Verification would require destructive production actions.
+- Secrets would need to be exposed.
+
+## Anchor Report
+
+End with:
 
 - Production path used.
-- Branch and commit SHA shipped.
+- Previous production revision.
+- Branch and exact revision shipped.
 - Deployment, release, build, artifact, or image identifier.
-- Drift found and how it was handled.
-- Skipped branches, commits, PRs, or dirty files with reasons.
-- Verification evidence from live production.
+- Drift found and classification.
+- Related drift included.
+- Skipped drift with reasons.
+- Checks run before deploy.
+- Live production verification evidence.
 - Final tree status.
-- Any residual risks or follow-up checks.
-
-## Hard Stops
-
-Stop before mutating production when:
-
-- Production deploy source is ambiguous.
-- Related drift cannot be confidently classified.
-- Required credentials or provider access are missing.
-- The deploy path would overwrite unrelated work.
-- Verification would require destructive production actions.
-- Secrets would need to be exposed in logs or chat.
+- Residual risks or follow-up checks.

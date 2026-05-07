@@ -1,6 +1,6 @@
 ---
 name: anchor
-description: Anchor parallel coding sessions, branches, worktrees, PRs, and production deploy state before updating production. Use when the user says "anchor" or asks an AI coding agent to reconcile drift across sessions, preserve unrelated work, move only related changes onto the real production deploy path, deploy an exact revision, and verify the live result. Works in local workspaces, cloud coding sandboxes, and CI-like environments by adapting evidence gathering to the access available.
+description: Anchor parallel coding sessions, branches, worktrees, PRs, repo hygiene, and production deploy state before updating production. Use when the user says "anchor" or asks an AI coding agent to reconcile drift across sessions, preserve unrelated work, keep the repository clean, move only related changes onto the real production deploy path, deploy an exact revision, and verify the live result. Works in local workspaces, cloud coding sandboxes, and CI-like environments by adapting evidence gathering to the access available.
 ---
 
 # Anchor
@@ -22,7 +22,8 @@ Use these terms exactly when reasoning and reporting. Consistent language is the
 - **Unrelated drift**: drift that does not affect the requested change. Leave it untouched.
 - **Unknown drift**: drift that cannot yet be classified. Inspect further; if still unknown, stop.
 - **Exact revision**: a commit SHA, image digest, build id, artifact hash, release id, deployment id, or server checkout SHA that can be named after shipping.
-- **Anchor report**: the final record of production path, previous revision, shipped revision, drift handling, checks, live verification, tree status, and residual risk.
+- **Repo hygiene**: the practice of keeping the workspace reviewable and reproducible by separating intended changes from accidental churn, generated debris, local secrets, dependency noise, and unrelated formatting.
+- **Anchor report**: the final record of production path, previous revision, shipped revision, drift handling, repo hygiene, checks, live verification, tree status, and residual risk.
 
 Key classifications:
 
@@ -37,6 +38,7 @@ Key classifications:
 - **Production path first.** Discover what actually updates production before editing.
 - **Preserve unrelated work.** Do not reset, delete, stash, rewrite, or overwrite work from other sessions unless the user explicitly asks.
 - **Converge narrowly.** Bring in only clearly related drift. Do not use broad sync commands to make drift disappear.
+- **Keep the repo hygienic.** Do not leave temporary files, logs, caches, local environment edits, secrets, generated artifacts, or broad formatting churn unless they are explicitly part of the requested change.
 - **One exact revision ships.** Production should be updated by a named revision, artifact, image, build, release, or deployment.
 - **Provider success is not verification.** Verify the live target independently.
 - **Cloud is partial evidence.** In cloud sandboxes, assume the checkout is isolated. Hidden work on another machine cannot be reconciled unless surfaced through a worktree, branch, PR, patch, artifact, issue, or user-provided context.
@@ -94,7 +96,22 @@ Prefer the method that preserves the clearest audit trail for this repo. Bring i
 
 If related drift conflicts with the requested change, stop with the competing commits, branches, files, and risk.
 
-### 5. Ship one exact revision
+### 5. Maintain repo hygiene
+
+Keep the workspace clean enough that another engineer can audit the result from git state and command output alone.
+
+Before staging, inspect the full diff and status:
+
+- Remove or ignore scratch files, logs, caches, local databases, coverage output, screenshots, editor files, and build artifacts that are not intended deliverables.
+- Keep dependency and lockfile changes only when the requested change requires them. If they changed incidentally, investigate before including them.
+- Keep formatting-only edits out of behavioral changes unless the repo's normal formatter produced them as part of the required files.
+- Do not commit local configuration, credentials, tokens, machine-specific paths, or environment files unless the repo explicitly tracks that file and the change is intended.
+- Update `.gitignore`, generated-file policy, or cleanup scripts only when the same hygiene issue is likely to recur.
+- If unrelated debris already exists, report it without sweeping it into the anchor work.
+
+Repo hygiene is not cosmetic. It protects drift classification, review quality, deploy reproducibility, and rollback clarity.
+
+### 6. Ship one exact revision
 
 Make the requested change on the verified production path. Keep edits scoped to the requested behavior and any clearly related drift.
 
@@ -103,6 +120,7 @@ Before committing:
 - Run the smallest useful checks first, then broader checks when the change touches shared behavior, deploy configuration, build output, dependencies, authentication, data, or user-facing flows.
 - Inspect the staged diff.
 - Confirm unrelated dirty files are not staged.
+- Confirm generated artifacts, lockfiles, and formatting churn are intentional.
 - Confirm the commit will land on the production path or the repo's required release path.
 
 Commit only intended changes. Push through the repo's normal release process.
@@ -111,7 +129,7 @@ Deploy the exact revision through the real production mechanism: CI environment,
 
 Capture the strongest identifier available: deployment id, release id, build id, workflow run id, commit SHA, image digest, artifact hash, or server checkout SHA.
 
-### 6. Verify live production
+### 7. Verify live production
 
 Check the live target, not just provider status.
 
@@ -124,7 +142,7 @@ Use evidence that proves the shipped change is present:
 
 If live production does not match the exact revision, investigate wrong branch, stale cache, failed rollout, background deploy, or traffic splitting. Do not report success until live evidence matches.
 
-### 7. Report
+### 8. Report
 
 End with an anchor report:
 
@@ -133,6 +151,7 @@ End with an anchor report:
 - **Shipped revision**: branch and exact revision shipped.
 - **Deployment identifier**: deployment, release, build, artifact, image, workflow, or server identifier.
 - **Drift handling**: related drift included, conflicting drift stopped on, unrelated drift skipped, unknown drift unresolved.
+- **Repo hygiene**: accidental files removed or preserved, generated artifacts and lockfiles accounted for, unrelated debris left untouched.
 - **Checks**: validation run before deploy.
 - **Live verification**: evidence from production.
 - **Tree status**: final workspace state.

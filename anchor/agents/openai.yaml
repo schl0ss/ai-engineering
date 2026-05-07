@@ -1,4 +1,0 @@
-interface:
-  display_name: "Anchor"
-  short_description: "Anchor repo reality before production"
-  default_prompt: "Use $anchor to reconcile branch, worktree, PR, and production deploy drift before updating production."

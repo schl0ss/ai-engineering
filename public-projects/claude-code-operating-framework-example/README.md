@@ -6,7 +6,7 @@ https://github.com/schl0ss/Claude-Code-Operating-Framework-Example
 
 PDF artifact:
 
-[Claude Code setup overview](./claude-code-setup-overview.pdf)
+[Claude Code setup overview and code appendix](./claude-code-setup-overview.pdf)
 
 This project demonstrates an agentic engineering operating framework: sub-agents, skills, hooks, MCP, guardrails, synthetic data, approval gates, and evaluation.
 
